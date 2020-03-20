@@ -1,0 +1,10 @@
+下载离线包
+pip download -r requirements.txt
+
+从requirements.txt安装
+pip install -r requirements.txt
+
+安装离线包
+pip3 install --no-index --find-links=. -r requirements.txt
+（packages_linux目录中有离线包，进入packages_linux目录后执行即可）
+

@@ -1,0 +1,4 @@
+新增sentry模块
+
+安装离线包
+pip3 install --no-index --find-links=. -r sentry.txt

@@ -1,0 +1,22 @@
+version: "3.7"   # 指定本yml是docker-compose哪个版本制定的；通过docker-compose --version查看当前版本
+#x-base: &defaults
+#    image: "python:aaa"
+
+services:
+  flask-estate:
+    restart: on-failure
+    ports:
+      - "5000:5000"   # 前面是宿主机端口，后面是容器内端口
+##    environment:
+##      TERM: linux
+    tty: true
+#    privileged: true
+    volumes:
+      - ".:/home/python/code/sentry"
+    container_name: estate-1.1
+    command:
+      - /bin/bash
+      - -c
+      - |
+        top -c
+        supervisord -c /home/python/code/sentry/supervisor/supervisord.conf

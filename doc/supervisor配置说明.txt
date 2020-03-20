@@ -1,0 +1,42 @@
+python安装路径：/usr/local/python3
+supervisord执行路径：/usr/local/python3/bin/supervisord
+
+1.更改supervisor和app配置文件中的相关目录
+suervisord.conf
+[unix_http_server]
+file=/var/run/supervisor.sock
+
+[supervisord]
+logfile=需设置:/home/python/code/sentry/log/supervisord.log
+pidfile=/var/run/supervisord.pid
+logfile_maxbytes=1MB
+logfile_backups=0
+loglevel=critical
+
+[supervisorctl]
+serverurl=unix:///var/run/supervisor.sock
+
+[include]
+files = 需设置: /home/python/code/sentry/supervisor/conf.d/*.conf
+
+-------------------------------------------------
+flask_app.conf
+command=需设置: command=/usr/bin/python3 /home/python/code/sentry/manager.py
+stdout_logfile=需设置: /home/python/code/sentry/log/supervisor_stdout.log
+stderr_logfile=需设置: /home/python/code/sentry/log/supervisor_stderr.log
+
+
+2.启动：/usr/local/python3/bin/supervisord -c /home/python/code/sentry/supervisor/supervisord.conf
+
+①unix:///tmp/supervisor.sock no such file的问题
+sudo touch /var/run/supervisor.sock
+sudo chmod 777 /var/run/supervisor.sock
+
+②出现：Error: Another program is already listening on a port that one of our HTTP server...
+则执行：unlink /var/run/supervisor.sock
+
+③出现：Unlinking stale socket /var/run/supervisor.sock
+find / -name supervisor.sock
+unlink /***/supervisor.sock
+
+详细配置参看：https://www.cnblogs.com/justuntil/p/9843011.html
